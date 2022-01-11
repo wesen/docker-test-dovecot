@@ -39,14 +39,19 @@ function create_user() {
         echo "* creating user $U for the first time"
         useradd -m "$U"
     fi
-    echo -e "pass\npass\n" | passwd "$U"
+    echo -e "pass\npass\n" | passwd "$U" 2> /dev/null
 }
 
+# users getting random mails if their \Recent is empty
 create_user a
 create_user b
 create_user c
 create_user foo
 create_user bar
+
+# receiver users who aren't getting mails from us, for testing SMTP/LMTP delivery
+create_user rxa
+create_user rxb
 
 # periodically generate test mails
 cheapcron.sh &

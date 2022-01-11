@@ -21,9 +21,14 @@ services:
   testcot:
     build:
       context: ./test-dovecot
-    image: spezifisch/docker-test-dovecot:dev
+    image: spezifisch/test-dovecot:dev
     ports:
-      - "993:993"   # imaps
+      - "127.0.0.1:24:24"     # lmtp
+      - "127.0.0.1:110:110"   # pop3
+      - "127.0.0.1:143:143"   # imap
+      - "127.0.0.1:993:993"   # imaps
+      - "127.0.0.1:995:995"   # pop3s
+      - "127.0.0.1:4190:4190" # sieve
     volumes:
       # mails are stored in user home dirs
       - test-home:/home
@@ -31,5 +36,5 @@ services:
       - test-ssl:/etc/dovecot/ssl
 
 volumes:
-  test-home:
-  test-ssl:
+  test-home: null
+  test-ssl: null

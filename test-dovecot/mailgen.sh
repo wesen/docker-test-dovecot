@@ -27,16 +27,21 @@ EOF
 }
 
 for USER_HOME in /home/*; do
-    USER=$(basename "$USER_HOME")
+    USER=$(basename "${USER_HOME}")
+
+    if [[ "$USER" == rx* ]]; then
+        # ignore users starting with "rx" for testing mail delivery
+        continue
+    fi
 
     # check how many mails the user has
     NEW_MAILS=0
-    if [ -d "$USER_HOME/Maildir/new" ]; then
-        NEW_MAILS=$(ls -1 "$USER_HOME/Maildir/new" | wc -l)
+    if [ -d "${USER_HOME}/Maildir/new" ]; then
+        NEW_MAILS=$(find "${USER_HOME}/Maildir/new" -type f | wc -l)
     fi
 
     # send a mail if the user has no new mails
-    if [ "$NEW_MAILS" -eq 0 ]; then
+    if [ "${NEW_MAILS}" -eq 0 ]; then
         echo "$(date) generating new mail for $USER"
         send_random_mail "$USER"
     fi
