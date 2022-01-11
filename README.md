@@ -27,7 +27,7 @@ I needed a reference to test [mettmail](https://github.com/spezifisch/mettmail/)
 
 ## Development
 
-This project uses [pre-commit](https://pre-commit.com/). You need a working Docker to run the [hadolint-docker](https://github.com/hadolint/hadolint) hook.
+This project uses [pre-commit](https://pre-commit.com/). You need working Docker to run the [hadolint-docker](https://github.com/hadolint/hadolint) hook.
 
 ```shell
 # install it if needed
