@@ -19,9 +19,10 @@ version: "3"
 
 services:
   testcot:
+    # remove build section if you want to only use prebuilt images
     build:
       context: ./test-dovecot
-    image: spezifisch/test-dovecot:dev
+    image: ghcr.io/spezifisch/docker-test-dovecot:latest
     ports:
       - "127.0.0.1:24:24"     # lmtp
       - "127.0.0.1:110:110"   # pop3
