@@ -34,6 +34,11 @@ for USER_HOME in /home/*; do
         continue
     fi
 
+    if ! grep ":${USER_HOME}:" /etc/passwd > /dev/null; then
+        # ignore dirs which aren't user homes
+        continue
+    fi
+
     # check how many mails the user has
     NEW_MAILS=0
     if [ -d "${USER_HOME}/Maildir/new" ]; then

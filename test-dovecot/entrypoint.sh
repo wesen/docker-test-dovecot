@@ -29,29 +29,29 @@ fi
 # create test users
 function create_user() {
     U="$1"
-    if [ -e /home/"$U" ]; then
-        echo "* creating user $U"
-        _UID=$(stat -c "%u" /home/$U)
-        _GID=$(stat -c "%g" /home/$U)
-        groupadd --gid="$_GID" "$U"
-        useradd --uid="$_UID" --gid="$_GID" "$U"
-    else
-        echo "* creating user $U for the first time"
-        useradd -m "$U"
-    fi
-    echo -e "pass\npass\n" | passwd "$U" 2> /dev/null
+    echo "* creating user $U"
+    useradd "$U"
+
+    # recreate maildir
+    rm -rf "/home/$U/Maildir"
+    mkdir -p "/home/$U/Maildir"/{cur,new,tmp}
+    chown -R "$U:$U" "/home/$U"
+
+    # set password to 'pass'
+    echo -e "pass\npass\n" | passwd "$U" 2> /dev/null > /dev/null
 }
 
 # users getting random mails if their \Recent is empty
 create_user a
 create_user b
 create_user c
-create_user foo
-create_user bar
+create_user d
 
 # receiver users who aren't getting mails from us, for testing SMTP/LMTP delivery
 create_user rxa
 create_user rxb
+create_user rxc
+create_user rxd
 
 # periodically generate test mails
 cheapcron.sh &

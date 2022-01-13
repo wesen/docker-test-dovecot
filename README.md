@@ -11,15 +11,18 @@ The following users are created who get a newly generated mail if their *\Recent
 * a
 * b
 * c
-* foo
-* bar
+* d
 
 The following users are created but get *no* mails automatically:
 
 * rxa
 * rxb
+* rxc
+* rxd
 
 The password of each user is `pass`. You can login using IMAP(S) or POP3(S).
+
+**Important:** Don't bind mount your normal `/home` directory into this container because the Maildirs are wiped clean on startup. Use a dedicated volume for `/home` instead, like in the included docker-compose file.
 
 ## Why?
 
