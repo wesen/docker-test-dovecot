@@ -29,16 +29,21 @@ fi
 # create test users
 function create_user() {
     U="$1"
-    echo "* creating user $U"
-    useradd "$U"
+    echo "* checking user $U"
+    
+    # Only create user if it doesn't exist
+    if ! id "$U" &>/dev/null; then
+        echo "* creating user $U"
+        useradd "$U"
+        
+        # set password to 'pass'
+        echo -e "pass\npass\n" | passwd "$U" 2> /dev/null > /dev/null
+    fi
 
     # recreate maildir
     rm -rf "/home/$U/Maildir"
     mkdir -p "/home/$U/Maildir"/{cur,new,tmp}
     chown -R "$U:$U" "/home/$U"
-
-    # set password to 'pass'
-    echo -e "pass\npass\n" | passwd "$U" 2> /dev/null > /dev/null
 }
 
 # users getting random mails if their \Recent is empty
